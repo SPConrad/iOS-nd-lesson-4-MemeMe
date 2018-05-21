@@ -14,6 +14,7 @@
 		831E7D0720B21F8800AE393C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 831E7D0520B21F8800AE393C /* LaunchScreen.storyboard */; };
 		831E7D1220B21F8900AE393C /* Image_Picker_TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E7D1120B21F8900AE393C /* Image_Picker_TestTests.swift */; };
 		831E7D1D20B21F8900AE393C /* Image_Picker_TestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E7D1C20B21F8900AE393C /* Image_Picker_TestUITests.swift */; };
+		831E7D2B20B22FCF00AE393C /* MemeTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E7D2A20B22FCF00AE393C /* MemeTextFieldDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		831E7D1820B21F8900AE393C /* Image Picker TestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Image Picker TestUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		831E7D1C20B21F8900AE393C /* Image_Picker_TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image_Picker_TestUITests.swift; sourceTree = "<group>"; };
 		831E7D1E20B21F8900AE393C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		831E7D2A20B22FCF00AE393C /* MemeTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeTextFieldDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				831E7D0320B21F8800AE393C /* Assets.xcassets */,
 				831E7D0520B21F8800AE393C /* LaunchScreen.storyboard */,
 				831E7D0820B21F8900AE393C /* Info.plist */,
+				831E7D2A20B22FCF00AE393C /* MemeTextFieldDelegate.swift */,
 			);
 			path = "Image Picker Test";
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				831E7CFF20B21F8700AE393C /* ViewController.swift in Sources */,
+				831E7D2B20B22FCF00AE393C /* MemeTextFieldDelegate.swift in Sources */,
 				831E7CFD20B21F8700AE393C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

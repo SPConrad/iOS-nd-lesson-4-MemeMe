@@ -7,3 +7,22 @@
 //
 
 import Foundation
+import UIKit
+
+class MemeTextFieldDelegate : NSObject, UITextFieldDelegate {
+    
+    
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        /// clear entered text
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        /// dismiss keyboard
+        
+        textField.resignFirstResponder()
+    }
+    
+    
+    
+}
