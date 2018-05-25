@@ -43,15 +43,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        imageView.sendSubview(toBack: view)
         // Do any additional setup after loading the view, typically from a nib.
         self.topText.delegate = memeTextFieldDelegate
         self.bottomText.delegate = memeTextFieldDelegate
         self.topText.defaultTextAttributes = memeTextAttributes
         self.bottomText.defaultTextAttributes = memeTextAttributes
-        topText.backgroundColor = UIColor.clear
-        bottomText.backgroundColor = UIColor.clear
-        topText.borderStyle = UITextBorderStyle.none
-        bottomText.borderStyle = UITextBorderStyle.none
         topText.textAlignment = .center
         bottomText.textAlignment = .center
 
