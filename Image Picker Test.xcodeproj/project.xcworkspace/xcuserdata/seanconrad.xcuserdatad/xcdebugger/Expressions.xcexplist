@@ -14,6 +14,23 @@
          contextName = "ViewController.keyboardWillShow(_:):ViewController.swift">
       </ContextState>
       <ContextState
+         contextName = "closure #1 in ViewController.save():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "activity.rawValue == &quot;com.apple.UIKit.activity.SaveToCameraRoll&quot;">
+            </PersistentString>
+            <PersistentString
+               value = "activity.UIActivityType">
+            </PersistentString>
+            <PersistentString
+               value = "activity.debugDescription">
+            </PersistentString>
+            <PersistentString
+               value = "success == true">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.viewDidLoad():ViewController.swift">
          <PersistentStrings>
             <PersistentString

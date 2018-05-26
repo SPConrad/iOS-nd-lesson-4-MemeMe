@@ -69,7 +69,7 @@
                             <constraint firstItem="JGB-vq-oad" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hvg-br-NGL"/>
                             <constraint firstItem="JGB-vq-oad" firstAttribute="top" secondItem="8rE-XI-yZj" secondAttribute="bottom" id="l5L-Jg-Qvg"/>
                             <constraint firstItem="JGB-vq-oad" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="mos-Rw-uuc"/>
-                            <constraint firstItem="gN6-W9-3UL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="twe-Fp-Ti8" userLabel="Top Text.top = Safe Area.top + 30"/>
+                            <constraint firstItem="gN6-W9-3UL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="twe-Fp-Ti8" userLabel="Top Text.top = Safe Area.top + 30"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

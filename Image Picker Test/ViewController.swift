@@ -24,14 +24,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     let memeTextFieldDelegate = MemeTextFieldDelegate()
     
-    
     let memeTextAttributes:[String: Any] = [
-        NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
-        NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-        NSAttributedStringKey.strokeWidth.rawValue: 10]
-    
-    
+        NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
+        NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 45)!,
+        NSAttributedStringKey.strokeWidth.rawValue: -8]
     
     func subscribeToKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
@@ -43,6 +40,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        saveButton.isEnabled = false
         imageView.sendSubview(toBack: view)
         // Do any additional setup after loading the view, typically from a nib.
         self.topText.delegate = memeTextFieldDelegate
@@ -128,6 +126,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             imageView.image = image
+            saveButton.isEnabled = true
         }
         picker.dismiss(animated: true, completion: nil)
     }
@@ -142,7 +141,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         if let originalImage = imageView.image {
             let memedImage = generateMemedImage()
             let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: originalImage, finalImage: memedImage)
-            var avc = UIActivityViewController.self
             
             let imageToShare = [ meme.finalImage ]
             let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
@@ -154,8 +152,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             // present the view controller
             self.present(activityViewController, animated: true, completion: nil)
             
+            activityViewController.completionWithItemsHandler = { activity, success, items, error in
+
+                if success {
+                    if activity?.rawValue == "com.apple.UIKit.activity.SaveToCameraRoll" {
+                        self.imageView.image = nil
+                        self.saveButton.isEnabled = false
+                        self.topText.text = self.topText.placeholder
+                        self.bottomText.text = self.bottomText.placeholder
+                    }
+                }
+            }
         }
     }
+    
+    
     
     struct Meme {
         var topText: String
