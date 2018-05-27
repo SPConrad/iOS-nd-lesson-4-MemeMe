@@ -27,7 +27,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     let memeTextAttributes:[String: Any] = [
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
-        NSAttributedStringKey.font.rawValue: UIFont(name: "HelveticaNeue-CondensedBlack", size: 45)!,
+        NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 40)!,
         NSAttributedStringKey.strokeWidth.rawValue: -8]
     
     func subscribeToKeyboardNotifications() {
@@ -38,6 +38,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func unsubscribeFromKeyboardNotifications() {
         NotificationCenter.default.removeObserver(self)
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isEnabled = false
@@ -47,9 +48,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.bottomText.delegate = memeTextFieldDelegate
         self.topText.defaultTextAttributes = memeTextAttributes
         self.bottomText.defaultTextAttributes = memeTextAttributes
+        self.topText.text = self.topText.placeholder
+        self.bottomText.text = self.bottomText.placeholder
         topText.textAlignment = .center
         bottomText.textAlignment = .center
-
+        cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
+        
         subscribeToKeyboardNotifications()
     }
     
@@ -65,17 +69,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @objc func keyboardWillShow(_ notification:Notification){
         if bottomText.isFirstResponder {
-            guard let info = notification.userInfo,
-                let keyboardRect = info[UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
-            
-            var visibleRect = view.frame
-            visibleRect.size.height -= keyboardRect.size.height
-            let bottomTextBottomY = bottomText.frame.height + bottomText.frame.minY
-            if !visibleRect.contains(CGPoint(x: 0, y: bottomTextBottomY)) {
-                // Offset view by amount below the visible rect (plus padding)
-                let padding: CGFloat = 24
-                self.view.frame.origin.y -= (abs(bottomTextBottomY - visibleRect.size.height) + padding)
-            }
+            self.view.frame.origin.y -= getKeyboardHeight(notification)
         }
     }
     
@@ -88,10 +82,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func showAlert(alertString: String, message: String){
+        let ac = UIAlertController(title: alertString, message: message, preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
+        present(ac, animated: true)
     }
 
     @IBAction func pickImageFromAlbum(_ sender: Any) {
@@ -103,19 +98,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     @IBAction func pickImageFromCamera(_sender: Any){
         AVCaptureDevice.requestAccess(for: AVMediaType.video) { response in
-            if response {
-                //access granted
+            if !response {
+                // camera is not enabled, tell the user to enable access
+                self.showAlert(alertString: "Unable to access camera", message: "Please enable access to the camera in your settings")
             } else {
-                
+                let imagePicker = UIImagePickerController()
+                imagePicker.sourceType = .camera
+                imagePicker.delegate = self
+                self.present(imagePicker, animated: true, completion: nil)
             }
         }
-        if !UIImagePickerController.isSourceTypeAvailable(.camera) {
-            print("camera not enabled")
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        if UIDevice.current.orientation.isLandscape {
+            imageView.contentMode = .scaleAspectFill
         } else {
-        let imagePicker = UIImagePickerController()
-            imagePicker.sourceType = .camera
-            imagePicker.delegate = self
-            present(imagePicker, animated: true, completion: nil)
+            imageView.contentMode = .scaleAspectFit
         }
     }
     
@@ -126,13 +127,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info["UIImagePickerControllerOriginalImage"] as? UIImage{
             imageView.image = image
+            imageView.contentMode = .scaleAspectFit
             saveButton.isEnabled = true
         }
         picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        
         picker.dismiss(animated: true, completion: nil)
     }
     
@@ -154,19 +155,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             activityViewController.completionWithItemsHandler = { activity, success, items, error in
 
-                if success {
-                    if activity?.rawValue == "com.apple.UIKit.activity.SaveToCameraRoll" {
-                        self.imageView.image = nil
-                        self.saveButton.isEnabled = false
-                        self.topText.text = self.topText.placeholder
-                        self.bottomText.text = self.bottomText.placeholder
-                    }
+                if success, activity?.rawValue == "com.apple.UIKit.activity.SaveToCameraRoll" {
+                    self.imageView.image = nil
+                    self.saveButton.isEnabled = false
+                    self.topText.text = self.topText.placeholder
+                    self.bottomText.text = self.bottomText.placeholder
                 }
             }
         }
     }
-    
-    
     
     struct Meme {
         var topText: String
@@ -177,27 +174,25 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func generateMemedImage() -> UIImage {
         
-        // TODO: Hide toolbar and navbar
+        // Hide toolbar and navbar while saving image
         toolbar.isHidden = true
+        navigationController?.isToolbarHidden = true
         
         // Render view to an image
-        UIGraphicsBeginImageContext(self.view.frame.size)
+        UIGraphicsBeginImageContext(self.view.safeAreaLayoutGuide.layoutFrame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         // TODO: Show toolbar and navbar
         toolbar.isHidden = false
+        navigationController?.isToolbarHidden = false
         
         return memedImage
     }
-
-    
-    
     override func viewWillDisappear(_ animated: Bool) {
-        
-        super.viewWillDisappear(animated)
         unsubscribeFromKeyboardNotifications()
+        super.viewWillDisappear(animated)
     }
     
 }

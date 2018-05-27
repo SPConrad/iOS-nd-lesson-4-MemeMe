@@ -11,7 +11,45 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ViewController.checkForCamera():ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "AVCaptureDevice.DiscoverySession.self">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.getKeyboardHeight(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue">
+            </PersistentString>
+            <PersistentString
+               value = "notification.userInfo">
+            </PersistentString>
+            <PersistentString
+               value = "keyboardSize.cgRectValue.height">
+            </PersistentString>
+            <PersistentString
+               value = "userInfo![UIKeyboardFrameEndUserInfoKey]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "ViewController.keyboardWillShow(_:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "bottomText.isFirstResponder">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.pickImageFromCamera(_sender:):ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "response">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #1 in ViewController.save():ViewController.swift">
@@ -20,10 +58,10 @@
                value = "activity.rawValue == &quot;com.apple.UIKit.activity.SaveToCameraRoll&quot;">
             </PersistentString>
             <PersistentString
-               value = "activity.UIActivityType">
+               value = "activity.debugDescription">
             </PersistentString>
             <PersistentString
-               value = "activity.debugDescription">
+               value = "activity.UIActivityType">
             </PersistentString>
             <PersistentString
                value = "success == true">
@@ -37,9 +75,6 @@
                value = "">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "ViewController.getKeyboardHeight(_:):ViewController.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

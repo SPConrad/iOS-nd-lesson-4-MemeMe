@@ -15,6 +15,7 @@
 		831E7D1220B21F8900AE393C /* Image_Picker_TestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E7D1120B21F8900AE393C /* Image_Picker_TestTests.swift */; };
 		831E7D1D20B21F8900AE393C /* Image_Picker_TestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E7D1C20B21F8900AE393C /* Image_Picker_TestUITests.swift */; };
 		831E7D2B20B22FCF00AE393C /* MemeTextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 831E7D2A20B22FCF00AE393C /* MemeTextFieldDelegate.swift */; };
+		8321B9FE20BB390000969876 /* impact.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8321B9FD20BB390000969876 /* impact.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		831E7D1C20B21F8900AE393C /* Image_Picker_TestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image_Picker_TestUITests.swift; sourceTree = "<group>"; };
 		831E7D1E20B21F8900AE393C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		831E7D2A20B22FCF00AE393C /* MemeTextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeTextFieldDelegate.swift; sourceTree = "<group>"; };
+		8321B9FD20BB390000969876 /* impact.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = impact.ttf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				831E7D0520B21F8800AE393C /* LaunchScreen.storyboard */,
 				831E7D0820B21F8900AE393C /* Info.plist */,
 				831E7D2A20B22FCF00AE393C /* MemeTextFieldDelegate.swift */,
+				8321B9FF20BB391200969876 /* Fonts */,
 			);
 			path = "Image Picker Test";
 			sourceTree = "<group>";
@@ -126,6 +129,14 @@
 				831E7D1E20B21F8900AE393C /* Info.plist */,
 			);
 			path = "Image Picker TestUITests";
+			sourceTree = "<group>";
+		};
+		8321B9FF20BB391200969876 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				8321B9FD20BB390000969876 /* impact.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8321B9FE20BB390000969876 /* impact.ttf in Resources */,
 				831E7D0720B21F8800AE393C /* LaunchScreen.storyboard in Resources */,
 				831E7D0420B21F8800AE393C /* Assets.xcassets in Resources */,
 				831E7D0220B21F8700AE393C /* Main.storyboard in Resources */,
