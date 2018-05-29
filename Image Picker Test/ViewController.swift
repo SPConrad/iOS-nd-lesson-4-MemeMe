@@ -22,12 +22,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var topText: UITextField!
     @IBOutlet weak var bottomText: UITextField!
     
+    var textFields = [UITextField]()
+    
     let memeTextFieldDelegate = MemeTextFieldDelegate()
     
     let memeTextAttributes:[String: Any] = [
         NSAttributedStringKey.foregroundColor.rawValue: UIColor.white,
         NSAttributedStringKey.strokeColor.rawValue: UIColor.black,
-        NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 40)!,
+        NSAttributedStringKey.font.rawValue: UIFont(name: "Impact", size: 50)!,
         NSAttributedStringKey.strokeWidth.rawValue: -8]
     
     func subscribeToKeyboardNotifications() {
@@ -39,19 +41,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NotificationCenter.default.removeObserver(self)
     }
     
+    func setupTextFields() {
+        textFields.append(self.topText)
+        textFields.append(self.bottomText)
+        
+        for textfield in textFields {
+            textfield.delegate = memeTextFieldDelegate
+            textfield.defaultTextAttributes = memeTextAttributes
+            textfield.text = textfield.placeholder
+            textfield.textAlignment = .center
+            
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isEnabled = false
-        imageView.sendSubview(toBack: view)
         // Do any additional setup after loading the view, typically from a nib.
-        self.topText.delegate = memeTextFieldDelegate
-        self.bottomText.delegate = memeTextFieldDelegate
-        self.topText.defaultTextAttributes = memeTextAttributes
-        self.bottomText.defaultTextAttributes = memeTextAttributes
-        self.topText.text = self.topText.placeholder
-        self.bottomText.text = self.bottomText.placeholder
-        topText.textAlignment = .center
-        bottomText.textAlignment = .center
+        
+        setupTextFields()
+        
         cameraButton.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         
         subscribeToKeyboardNotifications()
@@ -88,12 +97,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         ac.addAction(UIAlertAction(title: "Continue", style: .default, handler: nil))
         present(ac, animated: true)
     }
-
-    @IBAction func pickImageFromAlbum(_ sender: Any) {
+    
+    func showImagePicker(sourceType: UIImagePickerControllerSourceType){
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = sourceType
         present(imagePicker, animated: true, completion: nil)
+    }
+
+    @IBAction func pickImageFromAlbum(_ sender: Any) {
+        showImagePicker(sourceType: .photoLibrary)
     }
     
     @IBAction func pickImageFromCamera(_sender: Any){
@@ -102,10 +115,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                 // camera is not enabled, tell the user to enable access
                 self.showAlert(alertString: "Unable to access camera", message: "Please enable access to the camera in your settings")
             } else {
-                let imagePicker = UIImagePickerController()
-                imagePicker.sourceType = .camera
-                imagePicker.delegate = self
-                self.present(imagePicker, animated: true, completion: nil)
+                self.showImagePicker(sourceType: .camera)
             }
         }
     }
@@ -137,13 +147,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         picker.dismiss(animated: true, completion: nil)
     }
     
+    
+    
     func save() {
         // Create the meme
         if let originalImage = imageView.image {
             let memedImage = generateMemedImage()
-            let meme = Meme(topText: topText.text!, bottomText: bottomText.text!, originalImage: originalImage, finalImage: memedImage)
             
-            let imageToShare = [ meme.finalImage ]
+            let imageToShare = [ memedImage ]
+            
             let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view // so that iPads won't crash
             
@@ -155,11 +167,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             
             activityViewController.completionWithItemsHandler = { activity, success, items, error in
 
-                if success, activity?.rawValue == "com.apple.UIKit.activity.SaveToCameraRoll" {
-                    self.imageView.image = nil
-                    self.saveButton.isEnabled = false
-                    self.topText.text = self.topText.placeholder
-                    self.bottomText.text = self.bottomText.placeholder
+                if success {
+                    if activity?.rawValue == "com.apple.UIKit.activity.SaveToCameraRoll" {
+                        let meme = Meme(topText: self.topText.text!, bottomText: self.bottomText.text!, originalImage: originalImage, finalImage: memedImage)
+                        
+                        self.imageView.image = nil
+                        self.saveButton.isEnabled = false
+                        self.topText.text = self.topText.placeholder
+                        self.bottomText.text = self.bottomText.placeholder
+                    }
                 }
             }
         }

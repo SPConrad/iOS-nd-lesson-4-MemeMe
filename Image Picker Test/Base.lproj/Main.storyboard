@@ -29,6 +29,9 @@
                             </imageView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JGB-vq-oad">
                                 <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="4w1-iA-r5D"/>
+                                </constraints>
                                 <items>
                                     <barButtonItem title="Take Picture" id="0md-f2-URg" userLabel="Take Picture">
                                         <connections>
@@ -40,7 +43,7 @@
                                             <action selector="pickImageFromAlbum:" destination="BYZ-38-t0r" id="LKx-r7-Mw0"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem title="Share" id="Ug8-bC-tBf">
+                                    <barButtonItem systemItem="action" id="Ug8-bC-tBf">
                                         <connections>
                                             <action selector="saveImageWith_sender:" destination="BYZ-38-t0r" id="Z6r-Lx-PEQ"/>
                                         </connections>
@@ -63,6 +66,7 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="JGB-vq-oad" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="2CY-S7-7wr"/>
+                            <constraint firstItem="JGB-vq-oad" firstAttribute="top" secondItem="8rE-XI-yZj" secondAttribute="bottom" id="7Uk-0O-RHL"/>
                             <constraint firstItem="8rE-XI-yZj" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="8OH-UV-Swp"/>
                             <constraint firstItem="gN6-W9-3UL" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="CZN-GN-6aq"/>
                             <constraint firstItem="8rE-XI-yZj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="PNQ-9P-2be"/>
